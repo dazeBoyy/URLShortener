@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  db:
+    image: bitnami/postgresql
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: urlshortener
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: url_shortener_service
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgres://user:password@db:5432/urlshortener?sslmode=disable"
+      STORAGE_TYPE: "postgres"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pg_data:
