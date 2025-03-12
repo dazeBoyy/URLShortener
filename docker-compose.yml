@@ -24,7 +24,7 @@ services:
       - db
     environment:
       DATABASE_URL: "postgres://user:password@db:5432/urlshortener?sslmode=disable"
-      STORAGE_TYPE: "postgres"
+      STORAGE: "postgres"
     ports:
       - "8080:8080"
 
